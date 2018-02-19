@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 15:19:25 by spopieul          #+#    #+#             */
-/*   Updated: 2018/02/16 20:09:59 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/02/19 20:27:00 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,20 @@
 # define M_OPT_REVERSE		0x08
 # define M_OPT_STIME		0x10
 
-typedef struct stat t_stat;
+typedef struct	stat		t_stat;
+typedef struct	dirent	t_dirent;
 
 typedef struct	s_ls_file
 {
 	const char	*name;
-	t_stat		stat;
+	t_stat		*stat;
 }				t_ls_file;
-
-typedef struct	s_ls_dir
-{
-	const char	*name;
-	t_list		*files;
-	t_list		*dirs;
-}				t_ls_dir;
 
 typedef struct	s_ls_state
 {
 	int			opts;
-	t_list		*files;
-	t_list		*files_nf;
-	t_list		*dirs;
 	int			exit_status;
+	t_list		*files;
 }				t_ls_state;
 
 #endif
