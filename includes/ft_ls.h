@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 15:19:25 by spopieul          #+#    #+#             */
-/*   Updated: 2018/02/20 03:31:30 by orenkay          ###   ########.fr       */
+/*   Updated: 2018/02/20 15:50:26 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ typedef struct	s_ls_state
 	t_list		*files;
 	int			(*sort_fn)(void*, void*);
 	size_t		term_width;
+	size_t		term_height;
 }				t_ls_state;
+
+void	ls_print_dirs(t_ls_state *state, t_list *dirs, char *apath);
 
 #endif

@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 15:07:29 by spopieul          #+#    #+#             */
-/*   Updated: 2018/02/20 12:05:27 by orenkay          ###   ########.fr       */
+/*   Updated: 2018/02/20 16:41:35 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
-int		ls_strcmp(const char *s1, const char *s2)
-{
-	int		i;
-
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return (ft_tolower(s1[i]) - ft_tolower(s2[i]));
-}
 
 int		ls_get_option(int c)
 {
@@ -69,7 +59,7 @@ void	ls_add_file(const char *filename, const char *dir, t_list **lst)
 
 	if (!(file = ft_memalloc(sizeof(*file))))
 		return ;
-	file->name = filename;
+	file->name = ft_strdup(filename);
 	file->stat = ft_memalloc(sizeof(*file->stat));
 	if (!file->stat)
 	{
@@ -118,7 +108,7 @@ void	ls_print_not_found(t_ls_state *state)
 
 int		ls_alpha_sort(void *a, void *b)
 {
-	return (ls_strcmp(((t_ls_file*)a)->name, ((t_ls_file*)b)->name));
+	return (ft_strcmp(((t_ls_file*)a)->name, ((t_ls_file*)b)->name));
 }
 
 int		ls_alpha_sort_rev(void *a, void *b)
@@ -168,14 +158,66 @@ int		ft_lstlen(t_list *lst)
 	return (i);
 }
 
-void	ls_print_files_column(t_ls_state *state, t_list *files)
+int		ls_get_column_width(t_list *files)
 {
+	int		width;
+	int		tmp;
+
+	width = 0;
 	while (files)
 	{
-		ft_printf("%-*s  ", 0, ((t_ls_file*)files->content)->name);
+		tmp = ft_strlen(((t_ls_file*)files->content)->name) + 1;
+		if (tmp > width)
+			width = tmp;
 		files = files->next;
 	}
-	ft_printf("\n");
+	return (width);
+}
+
+int		ls_get_lines_count(t_ls_state *state, t_list *files)
+{
+	int		files_count;
+	int		lines;
+	int		cols;
+	int		column_width;
+
+	column_width = ls_get_column_width(files);
+	if (column_width == 0)
+		return (files_count);
+	files_count = ft_lstlen(files);
+	cols = (state->term_width / column_width);
+	if (cols == 0)
+		return (files_count);
+	lines = (files_count / cols) + (files_count % cols);
+	if (lines > state->term_height)
+		return (files_count);
+	return (lines);
+}
+
+void	ls_print_files_column(t_ls_state *state, t_list *files)
+{
+	int	lines;
+	int i;
+	int column_width;
+	int offset;
+
+	lines = ls_get_lines_count(state, files);
+	offset = 0;
+	column_width = ls_get_column_width(files);
+	while (files)
+	{
+		i = -1;
+		if (offset != 0)
+			ft_printf("\033[%dA", lines);
+		while (files && ++i < lines)
+		{
+			ft_printf("\033[%dG%-*s\n", offset + 1, column_width, ((t_ls_file*)files->content)->name);
+			files = files->next;
+		}
+		if (lines - i > 0)
+			ft_printf("\033[%dB", lines - i, 0);
+		offset += column_width;
+	}
 }
 
 void	ls_print_files(t_ls_state *state, t_list *files)
@@ -186,14 +228,13 @@ void	ls_print_files(t_ls_state *state, t_list *files)
 		ls_print_files_column(state, files);
 }
 
-void	ls_print_dirs(t_ls_state *state, t_list *dirs, char *apath);
-
 void	ls_filedel(void *content, size_t size)
 {
 	t_ls_file *file;
 
 	file = (t_ls_file*)content;
 	ft_memdel((void**)&file->stat);
+	ft_strdel((char**)&file->name);
 	ft_memdel((void**)&file);
 }
 
@@ -297,6 +338,7 @@ int		main(int ac, char **av)
 	state.exit_status = 0;
 	state.files = NULL;
 	state.term_width = w.ws_col;
+	state.term_height = w.ws_row;
 	ls_parse_args(ac - 1, av + 1, &state);
 	ls_init_sortfn(&state);
 	ft_lst_mergesort(&state.files, &ls_1st_sort);
