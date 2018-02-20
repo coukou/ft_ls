@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 15:07:29 by spopieul          #+#    #+#             */
-/*   Updated: 2018/02/19 22:24:47 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/02/20 12:05:27 by orenkay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+int		ls_strcmp(const char *s1, const char *s2)
+{
+	int		i;
+
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return (ft_tolower(s1[i]) - ft_tolower(s2[i]));
+}
 
 int		ls_get_option(int c)
 {
@@ -23,7 +33,7 @@ int		ls_get_option(int c)
 	else if (c == 'l')
 		return (M_OPT_LONG);
 	else if (c == 't')
-		return (M_OPT_STIME);
+		return (M_OPT_S_MTIME);
 	else return (0);
 }
 
@@ -108,36 +118,72 @@ void	ls_print_not_found(t_ls_state *state)
 
 int		ls_alpha_sort(void *a, void *b)
 {
-	return (ft_strcmp(((t_ls_file*)a)->name, ((t_ls_file*)b)->name));
+	return (ls_strcmp(((t_ls_file*)a)->name, ((t_ls_file*)b)->name));
 }
 
-int		ls_get_width(t_list *files)
+int		ls_alpha_sort_rev(void *a, void *b)
 {
-	int	width;
-	int	tmp;
+	return (ls_alpha_sort(b, a));
+}
 
-	width = 0;
+int		ls_mtime_sort(void *a, void *b)
+{
+	time_t atime;
+	time_t btime;
+
+	atime = ((t_ls_file*)a)->stat->st_mtime;
+	btime = ((t_ls_file*)b)->stat->st_mtime;
+	if (atime == btime)
+		return (ls_alpha_sort(a, b));
+	return (atime > btime) ? -1 : 1;
+}
+
+int		ls_mtime_sort_rev(void *a, void *b)
+{
+	return (ls_mtime_sort(b, a));
+}
+
+void	ls_print_files_line(t_ls_state *state, t_list *files)
+{
+	t_ls_file *file;
+
 	while (files)
 	{
-		tmp = ft_strlen(((t_ls_file*)files->content)->name) + 1;
-		if (tmp > width)
-			width = tmp;
+		file = (t_ls_file*)files->content;
+		ft_printf("%s %d %s %s %d %s %d %.2d:%.2d %s\n", "----------", 0, "user", "user", 4096, "Month", 20, 0, 0, file->name);
 		files = files->next;
 	}
-	return (width);
+}
+
+int		ft_lstlen(t_list *lst)
+{
+	int i;
+
+	i = 0;
+	while (lst)
+	{
+		i++;
+		lst = lst->next;
+	}
+	return (i);
+}
+
+void	ls_print_files_column(t_ls_state *state, t_list *files)
+{
+	while (files)
+	{
+		ft_printf("%-*s  ", 0, ((t_ls_file*)files->content)->name);
+		files = files->next;
+	}
+	ft_printf("\n");
 }
 
 void	ls_print_files(t_ls_state *state, t_list *files)
 {
-	int width;
-
-	width = ls_get_width(files);
-	while (files)
-	{
-		ft_printf("%-*s", width, ((t_ls_file*)files->content)->name);
-		files = files->next;
-	}
-	ft_printf("\n");
+	if (FT_MASK_EQ(state->opts, M_OPT_LONG))
+		ls_print_files_line(state, files);
+	else
+		ls_print_files_column(state, files);
 }
 
 void	ls_print_dirs(t_ls_state *state, t_list *dirs, char *apath);
@@ -167,7 +213,7 @@ void	ls_print_dir(t_ls_state *state, t_ls_file *dir, char *apath, int print_dir)
 			continue ;
 		ls_add_file(dent->d_name, apath, &files);
 	}
-	ft_lst_mergesort(&files, &ls_alpha_sort);
+	ft_lst_mergesort(&files, state->sort_fn);
 	ls_print_files(state, files);
 	if ((FT_MASK_EQ(state->opts, M_OPT_RECURSIVE)))
 		ls_print_dirs(state, files, apath);
@@ -231,12 +277,28 @@ int		ls_1st_sort(void *a, void *b)
 	return (ft_strcmp(af->name, bf->name));
 }
 
+void	ls_init_sortfn(t_ls_state *state)
+{
+	int reverse;
+
+	reverse = FT_MASK_EQ(state->opts, M_OPT_REVERSE);
+	if (FT_MASK_EQ(state->opts, M_OPT_S_MTIME))
+		state->sort_fn = (!reverse) ? &ls_mtime_sort : &ls_mtime_sort_rev;
+	else
+		state->sort_fn = (!reverse) ? &ls_alpha_sort : &ls_alpha_sort_rev;
+}
+
 int		main(int ac, char **av)
 {
+	struct winsize w;
 	t_ls_state	state;
 
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 	state.exit_status = 0;
+	state.files = NULL;
+	state.term_width = w.ws_col;
 	ls_parse_args(ac - 1, av + 1, &state);
+	ls_init_sortfn(&state);
 	ft_lst_mergesort(&state.files, &ls_1st_sort);
 	ls_print_not_found(&state);
 	ls_print(&state);
