@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 15:19:25 by spopieul          #+#    #+#             */
-/*   Updated: 2018/02/20 15:50:26 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/02/21 21:29:24 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,35 +18,53 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <dirent.h>
+#include <pwd.h>
+#include <grp.h>
 
 #include "libft/list.h"
 #include "ft_printf.h"
 
-# define M_OPT_LONG			0x01
-# define M_OPT_RECURSIVE	0x02
-# define M_OPT_ALL			0x04
-# define M_OPT_REVERSE		0x08
-# define M_OPT_S_MTIME		0x10
+# define FT_LS_OPT_LONG			0x01
+# define FT_LS_OPT_RECURSIVE	0x02
+# define FT_LS_OPT_ALL			0x04
+# define FT_LS_OPT_REVERSE		0x08
+# define FT_LS_OPT_S_MTIME		0x10
 
 typedef struct	stat	t_stat;
 typedef struct	dirent	t_dirent;
+typedef struct	group	t_group;
+typedef struct	passwd	t_passwd;
 
 typedef struct	s_ls_file
 {
-	const char	*name;
+	char		*name;
+	char		*filename;
 	t_stat		*stat;
+	t_passwd	*pwd;
+	t_group 	*grp;
 }				t_ls_file;
 
 typedef struct	s_ls_state
 {
 	int			opts;
 	int			exit_status;
-	t_list		*files;
-	int			(*sort_fn)(void*, void*);
-	size_t		term_width;
-	size_t		term_height;
+	int			(*sortfn)(void*, void*);
 }				t_ls_state;
 
-void	ls_print_dirs(t_ls_state *state, t_list *dirs, char *apath);
+// SORT
+// ----------------
+
+int		ls_alpha_sort(void *a, void *b);
+void	ls_init_sortfn(t_ls_state *state);
+
+// UTILS
+// ----------------
+
+void	ls_print_usage_exit();
+
+// OPTIONS
+// ----------------
+
+void	ls_init_opts(int ac, char **av, t_ls_state *state);
 
 #endif
