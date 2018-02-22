@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:33:18 by spopieul          #+#    #+#             */
-/*   Updated: 2018/02/21 15:44:02 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/02/22 16:53:11 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,30 @@ int		ls_get_file_letter(t_ls_file *file)
 		return ('p');
 	else
 		return ('-');
+}
+
+int		ls_get_column_width(t_list *flst)
+{
+	int width;
+	int tmp;
+
+	width = 0;
+	while (flst)
+	{
+		tmp = ft_strlen(((t_ls_file*)flst->content)->name);
+		if (tmp > width)
+			width = tmp;
+		flst = flst->next;
+	}
+	return (width);
+}
+
+int		ls_get_terminal_width()
+{
+	struct winsize	w;
+	if (ioctl(0, TIOCGWINSZ, &w) == -1)
+		return (0);
+	return (w.ws_col);
 }
 
 void	ls_get_flags(t_ls_file *file, char out[])

@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:44:22 by spopieul          #+#    #+#             */
-/*   Updated: 2018/02/21 17:34:21 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/02/22 18:51:05 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,24 @@ static int		ls_get_opt_flag(int c)
 void			ls_init_opts(int ac, char **av, t_ls_state *state)
 {
 	int	i;
+	int j;
 	int opt;
 
 	i = -1;
 	while (++i < ac)
 	{
-		if (*(av[i]) == '-')
+		j = -1;
+		if (av[i][++j] == '-')
 		{
-			if ((opt = ls_get_opt_flag(av[i][1])))
-				state->opts |= opt;
-			else
+			while (av[i][++j] && !ft_isspace(av[i][j]))
 			{
-				ft_printf("ft_ls: illegal option -- %c\n", av[i][1]);
-				ls_print_usage_exit();
+				if ((opt = ls_get_opt_flag(av[i][j])) > 0)
+					state->opts |= opt;
+				else
+				{
+					// ft_printf("ft_ls: illegal option -- %c\n", av[i][1]);
+					// ls_print_usage_exit();
+				}
 			}
 		}
 	}

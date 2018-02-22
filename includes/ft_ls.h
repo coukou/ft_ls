@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 15:19:25 by spopieul          #+#    #+#             */
-/*   Updated: 2018/02/21 21:29:24 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/02/22 19:27:02 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <dirent.h>
+#include <math.h>
 #include <pwd.h>
 #include <grp.h>
 
@@ -44,11 +45,21 @@ typedef struct	s_ls_file
 	t_group 	*grp;
 }				t_ls_file;
 
+typedef struct	s_ls_dwidth
+{
+	int lnk;
+	int user;
+	int grp;
+	int size;
+	int date;
+}				t_ls_dwith;
+
 typedef struct	s_ls_state
 {
 	int			opts;
 	int			exit_status;
 	int			(*sortfn)(void*, void*);
+	int			term_width;
 }				t_ls_state;
 
 // SORT
@@ -61,6 +72,10 @@ void	ls_init_sortfn(t_ls_state *state);
 // ----------------
 
 void	ls_print_usage_exit();
+int		ls_get_terminal_width();
+void	ls_get_flags(t_ls_file *file, char out[]);
+int		ls_get_column_width(t_list *flst);
+int		ls_get_lines_per_column(t_ls_state *state, t_list *flst, int column_width);
 
 // OPTIONS
 // ----------------
