@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+         #
+#    By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/21 16:54:27 by spopieul          #+#    #+#              #
-#    Updated: 2018/02/22 19:17:13 by spopieul         ###   ########.fr        #
+#    Updated: 2018/02/23 12:00:19 by orenkay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 
 $(NAME): $(OBJS)
 	@$(foreach lib, $(LIBS_DIR), make -C $(lib) > /dev/null;)
-	@$(CC) $(OBJS) $(LIBS) -o $(NAME)
+	@$(CC) $(OBJS) $(LIBS) -o $(NAME) -lm
 
 all: $(NAME)
 

@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 15:19:25 by spopieul          #+#    #+#             */
-/*   Updated: 2018/02/22 19:27:02 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/02/24 02:19:33 by orenkay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_LS
 # define FT_LS
+
 
 #include <sys/ioctl.h>
 #include <sys/types.h>
@@ -19,8 +20,12 @@
 #include <stdlib.h>
 #include <dirent.h>
 #include <math.h>
+#include <time.h>
 #include <pwd.h>
 #include <grp.h>
+#include <stdio.h>
+#include <errno.h>
+
 
 #include "libft/list.h"
 #include "ft_printf.h"
@@ -30,6 +35,7 @@
 # define FT_LS_OPT_ALL			0x04
 # define FT_LS_OPT_REVERSE		0x08
 # define FT_LS_OPT_S_MTIME		0x10
+# define FT_LS_OPT_ONE			0x20
 
 typedef struct	stat	t_stat;
 typedef struct	dirent	t_dirent;
@@ -43,6 +49,8 @@ typedef struct	s_ls_file
 	t_stat		*stat;
 	t_passwd	*pwd;
 	t_group 	*grp;
+	char		date[32];
+	char		lnk[1024];
 }				t_ls_file;
 
 typedef struct	s_ls_dwidth
@@ -53,6 +61,14 @@ typedef struct	s_ls_dwidth
 	int size;
 	int date;
 }				t_ls_dwith;
+
+typedef struct	s_ls_dir
+{
+	char		*path;
+	t_list		*ulst;
+	t_list		*flst;
+	t_list		*dlst;
+}				t_ls_dir;
 
 typedef struct	s_ls_state
 {

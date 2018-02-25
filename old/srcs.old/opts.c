@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   opts.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:44:22 by spopieul          #+#    #+#             */
-/*   Updated: 2018/02/22 18:51:05 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/02/23 12:48:49 by orenkay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static int		ls_get_opt_flag(int c)
 		return (FT_LS_OPT_LONG);
 	else if (c == 't')
 		return (FT_LS_OPT_S_MTIME);
+	else if (c == '1')
+		return (FT_LS_OPT_ONE);
 	else
 		return (0);
 }
@@ -35,6 +37,7 @@ void			ls_init_opts(int ac, char **av, t_ls_state *state)
 	int opt;
 
 	i = -1;
+	state->opts = 0;
 	while (++i < ac)
 	{
 		j = -1;
@@ -46,8 +49,8 @@ void			ls_init_opts(int ac, char **av, t_ls_state *state)
 					state->opts |= opt;
 				else
 				{
-					// ft_printf("ft_ls: illegal option -- %c\n", av[i][1]);
-					// ls_print_usage_exit();
+					ft_printf("ft_ls: illegal option -- %c\n", av[i][1]);
+					ls_print_usage_exit();
 				}
 			}
 		}
