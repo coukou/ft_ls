@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 18:35:40 by orenkay           #+#    #+#             */
-/*   Updated: 2018/02/26 20:31:55 by orenkay          ###   ########.fr       */
+/*   Updated: 2018/02/27 19:13:29 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct	t_ls_entries
 
 typedef struct	s_ls_ent
 {
-	const char	name[256];
+	const char	name[257];
 	const char	*path;
 	char		lnk[256];
 	char		flags[32];
@@ -62,6 +62,8 @@ typedef struct 	s_ls_colw
 	int			lnk;
 	int			size;
 	int			grp;
+	int			min;
+	int			maj;
 	int			user;
 	int			date;
 }				t_ls_colw;
@@ -77,7 +79,7 @@ typedef struct	s_ls
 
 void			ft_ls_path_push(t_ls *ls, const char *path);
 void			ft_ls_path_pop(t_ls *ls);
-void			ft_ls_exit(t_ls *ls, const char *msg);
+void			ft_ls_exit(t_ls *ls, const char *msg, int exit_code);
 void			ft_ls_clean(t_ls *ls);
 void			ft_ls_aget_opts(t_ls *ls, int ac, char **av);
 void			ft_ls_aget_entries(t_ls *ls, t_ls_entries *entries, int ac, char **av);

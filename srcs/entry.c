@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entry.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 11:17:44 by orenkay           #+#    #+#             */
-/*   Updated: 2018/02/26 20:34:30 by orenkay          ###   ########.fr       */
+/*   Updated: 2018/02/27 19:05:43 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void		ft_ls_add_err_entry(t_ls_ent *ent, t_ls_entries *entries)
 	char	*err;
 
 	err = ft_ls_get_ent_error(ent);
-	ft_lstadd(&entries->elst, ft_lstnew(err, ft_strlen(err)));
+	ft_lstadd(&entries->elst, ft_lstnew(err, ft_strlen(err) + 1));
 	ft_strdel(&err);
 	ft_ls_entdel(ent);
 }
@@ -148,7 +148,8 @@ t_ls_ent	*ft_ls_entnew(t_ls *ls, const char *filename)
 		ft_ls_entdel(ent);
 		return (NULL);
 	}
-	lstat(ent->path, ent->stat);
+	if ((lstat(ent->path, ent->stat)) == -1)
+		ft_printf("lstat err\n");
 	if (FT_MASK_EQ(ls->opts, FT_LS_OPT_LONG))
 	{
 		ent->grp = getgrgid(ent->stat->st_gid);

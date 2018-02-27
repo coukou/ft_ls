@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 18:25:28 by orenkay           #+#    #+#             */
-/*   Updated: 2018/02/26 21:08:28 by orenkay          ###   ########.fr       */
+/*   Updated: 2018/02/27 18:51:03 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void		ft_ls_init(t_ls *ls, t_ls_entries *entries, int ac, char **av)
 	ls->term_width = 0;
 	ft_ls_aget_opts(ls, ac - 1, av + 1);
 	if (!ls->wpath)
-		ft_ls_exit(ls, "init: something wrong happened");
+		ft_ls_exit(ls, "init: something wrong happened", 2);
 	ft_ls_aget_entries(ls, entries, ac - 1, av + 1);
 	ft_ls_init_sortfn(ls);
 }
@@ -68,6 +68,7 @@ static int		ft_ls_get_dir_entries(t_ls *ls, const char *path, t_ls_entries *entr
 	{
 		if (!FT_MASK_EQ(ls->opts, FT_LS_OPT_ALL) && *(tmp->d_name) == '.')
 			continue ;
+		ft_printf("DEBUG: %s, %d\n", tmp->d_name, tmp->d_type);
 		if ((ent = ft_ls_entnew(ls, tmp->d_name)))
 			ft_ls_add_entry(ent, entries, 0);
 	}
@@ -106,8 +107,14 @@ static void		ft_ls_get_columns_width(t_list *lst, t_ls_colw *colw)
 			colw->user = tmp;
 		if ((tmp = ft_strlen(ent->date)) > colw->date)
 			colw->date = tmp;
+		if (ent->stat->st_rdev && (tmp = ft_nbrlen(minor(ent->stat->st_rdev), 10)) > colw->min)
+			colw->min = tmp;
+		if (ent->stat->st_rdev && (tmp = ft_nbrlen(major(ent->stat->st_rdev), 10)) > colw->maj)
+			colw->maj = tmp;
 		lst = lst->next;
 	}
+	if (colw->min > 0)
+		colw->size += (colw->min + colw->maj + 1);
 }
 
 static int		ft_ls_get_block_total(t_list *lst)
@@ -120,12 +127,33 @@ static int		ft_ls_get_block_total(t_list *lst)
 		res += ((t_ls_ent*)lst->content)->stat->st_blocks;
 		lst = lst->next;
 	}
-	return (res / 2);
+	return (res);
+}
+
+static void		ft_ls_format_long_line(t_ls_ent *ent, t_ls_colw *colw, char *out)
+{
+	int i;
+
+	i = 0;
+	i += ft_sprintf(out + i, "%s ", ent->flags);
+	i += ft_sprintf(out + i, "%*d ", colw->lnk + 1, ent->stat->st_nlink);
+	i += ft_sprintf(out + i, "%-*s ", colw->user + 1, ent->pwd->pw_name);
+	i += ft_sprintf(out + i, "%-*s ", colw->grp + 1, ent->grp->gr_name);
+	if (ent->stat->st_rdev > 0)
+	{
+		i += ft_sprintf(out + i, "%*d, ", colw->maj, major(ent->stat->st_rdev));
+		i += ft_sprintf(out + i, "%*d ", colw->min, minor(ent->stat->st_rdev));
+	}
+	else
+		i += ft_sprintf(out + i, "%*d ", colw->size, ent->stat->st_size);
+	i += ft_sprintf(out + i, "%*s ", colw->date, ent->date);
+	i += ft_sprintf(out + i, "%s", ent->name);
+	if (*ent->lnk)
+		i += ft_sprintf(out + i, " -> %s", ent->lnk);
 }
 
 static void		ft_ls_print_files_long(t_ls *ls, t_list *lst)
 {
-	int			i;
 	t_ls_ent	*ent;
 	t_ls_colw	colw;
 	char		line[2048];
@@ -135,15 +163,7 @@ static void		ft_ls_print_files_long(t_ls *ls, t_list *lst)
 	while (lst)
 	{
 		ent = lst->content;
-		i = ft_sprintf(line, "%s ", ent->flags);
-		i += ft_sprintf(line + i, "%*d ", colw.lnk, ent->stat->st_nlink);
-		i += ft_sprintf(line + i, "%*s ", colw.user, ent->pwd->pw_name);
-		i += ft_sprintf(line + i, "%*s ", colw.grp, ent->grp->gr_name);
-		i += ft_sprintf(line + i, "%*ld ", colw.size, ent->stat->st_size);
-		i += ft_sprintf(line + i, "%*s ", colw.date, ent->date);
-		i += ft_sprintf(line + i, "%s ", ent->name);
-		if (*ent->lnk)
-			i += ft_sprintf(line + i, "-> %s", ent->lnk);
+		ft_ls_format_long_line(ent, &colw, line);
 		ft_printf("%s\n", line);
 		lst = lst->next;
 	}

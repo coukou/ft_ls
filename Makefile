@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+         #
+#    By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/21 16:54:27 by spopieul          #+#    #+#              #
-#    Updated: 2018/02/26 18:33:08 by orenkay          ###   ########.fr        #
+#    Updated: 2018/02/27 18:53:27 by spopieul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,10 +37,10 @@ all: $(NAME)
 
 clean:
 	@/bin/rm -rf $(OBJS)
-	#$(LIBFT_MAKE) clean
+#	$(LIBFT_MAKE) clean
 
 fclean: clean
 	@/bin/rm -rf $(NAME)
-	#$(LIBFT_MAKE) fclean
+#	$(LIBFT_MAKE) fclean
 
 re: fclean all

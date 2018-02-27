@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 19:09:33 by orenkay           #+#    #+#             */
-/*   Updated: 2018/02/26 17:58:25 by orenkay          ###   ########.fr       */
+/*   Updated: 2018/02/27 18:16:34 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void		ft_ls_aget_opts(t_ls *ls, int ac, char **av)
 	int i;
 	int j;
 	int opt;
-	char err[64];
+	char err[256];
 
 	i = -1;
 	while (++i < ac)
@@ -69,8 +69,8 @@ void		ft_ls_aget_opts(t_ls *ls, int ac, char **av)
 			{
 				if (!(opt = ft_ls_get_opt_flag(av[i][j])))
 				{
-					ft_sprintf(err, "illegal option -- %c", av[i][j]);
-					return ft_ls_exit(ls, err);
+					ft_sprintf(err, "illegal option -- %c\nusage: ft_ls [-lRart1] [file ...]", av[i][j]);
+					return ft_ls_exit(ls, err, 1);
 				}
 				ls->opts |= opt;
 			}
