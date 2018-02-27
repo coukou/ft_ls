@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 11:17:44 by orenkay           #+#    #+#             */
-/*   Updated: 2018/02/27 19:05:43 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/02/27 20:23:38 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,26 @@ void	ft_ls_set_flags(t_ls_ent *ent)
 	i += ft_sprintf(ent->flags + i, (FT_MASK_EQ(m, S_IXOTH) ? "x" : "-"));
 }
 
+void		ft_ls_set_grp_name(t_ls_ent *ent)
+{
+	t_group *grp;
+
+	if ((grp = getgrgid(ent->stat->st_gid)) == 0)
+		ft_lltoa(ent->stat->st_gid, 10, ent->grp_name);
+	else
+		ft_strcpy(ent->grp_name, grp->gr_name);
+}
+
+void		ft_ls_set_usr_name(t_ls_ent *ent)
+{
+	t_passwd *pwd;
+
+	if ((pwd = getpwuid(ent->stat->st_uid)) == 0)
+		ft_lltoa(ent->stat->st_uid, 10, ent->usr_name);
+	else
+		ft_strcpy(ent->usr_name, pwd->pw_name);
+}
+
 t_ls_ent	*ft_ls_entnew(t_ls *ls, const char *filename)
 {
 	t_ls_ent *ent;
@@ -148,14 +168,13 @@ t_ls_ent	*ft_ls_entnew(t_ls *ls, const char *filename)
 		ft_ls_entdel(ent);
 		return (NULL);
 	}
-	if ((lstat(ent->path, ent->stat)) == -1)
-		ft_printf("lstat err\n");
-	if (FT_MASK_EQ(ls->opts, FT_LS_OPT_LONG))
+	if ((lstat(ent->path, ent->stat) != -1) && FT_MASK_EQ(ls->opts, FT_LS_OPT_LONG))
 	{
-		ent->grp = getgrgid(ent->stat->st_gid);
-		ent->pwd = getpwuid(ent->stat->st_uid);
+
 		if ((ent->stat->st_mode & S_IFMT) == S_IFLNK)
 			readlink(ent->path, ent->lnk, sizeof(ent->lnk) - 1);
+		ft_ls_set_grp_name(ent);
+		ft_ls_set_usr_name(ent);
 		ft_ls_set_flags(ent);
 		ft_ls_set_date(ent);
 	}

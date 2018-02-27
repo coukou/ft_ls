@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 18:35:40 by orenkay           #+#    #+#             */
-/*   Updated: 2018/02/27 19:13:29 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/02/27 20:22:53 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ typedef struct	s_ls_ent
 	char		lnk[256];
 	char		flags[32];
 	char		date[256];
+	char		grp_name[256];
+	char		usr_name[256];
 	t_stat		*stat;
-	t_passwd	*pwd;
-	t_group 	*grp;
 }				t_ls_ent;
 
 typedef struct 	s_ls_colw

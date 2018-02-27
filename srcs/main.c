@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 18:25:28 by orenkay           #+#    #+#             */
-/*   Updated: 2018/02/27 18:51:03 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/02/27 20:30:14 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ static int		ft_ls_get_dir_entries(t_ls *ls, const char *path, t_ls_entries *entr
 	{
 		if (!FT_MASK_EQ(ls->opts, FT_LS_OPT_ALL) && *(tmp->d_name) == '.')
 			continue ;
-		ft_printf("DEBUG: %s, %d\n", tmp->d_name, tmp->d_type);
 		if ((ent = ft_ls_entnew(ls, tmp->d_name)))
 			ft_ls_add_entry(ent, entries, 0);
 	}
@@ -101,9 +100,9 @@ static void		ft_ls_get_columns_width(t_list *lst, t_ls_colw *colw)
 			colw->lnk = tmp;
 		if ((tmp = ft_nbrlen(ent->stat->st_size, 10)) > colw->size)
 			colw->size = tmp;
-		if ((tmp = ft_strlen(ent->grp->gr_name)) > colw->grp)
+		if ((tmp = ft_strlen(ent->grp_name)) > colw->grp)
 			colw->grp = tmp;
-		if ((tmp = ft_strlen(ent->pwd->pw_name)) > colw->user)
+		if ((tmp = ft_strlen(ent->usr_name)) > colw->user)
 			colw->user = tmp;
 		if ((tmp = ft_strlen(ent->date)) > colw->date)
 			colw->date = tmp;
@@ -113,8 +112,10 @@ static void		ft_ls_get_columns_width(t_list *lst, t_ls_colw *colw)
 			colw->maj = tmp;
 		lst = lst->next;
 	}
-	if (colw->min > 0)
+	if (colw->min > 0 && colw->size < (colw->min + colw->maj + 1))
 		colw->size += (colw->min + colw->maj + 1);
+	else if (colw->size > (colw->min + colw->maj + 1))
+		colw->maj = colw->size - (colw->min + colw->maj);
 }
 
 static int		ft_ls_get_block_total(t_list *lst)
@@ -137,8 +138,8 @@ static void		ft_ls_format_long_line(t_ls_ent *ent, t_ls_colw *colw, char *out)
 	i = 0;
 	i += ft_sprintf(out + i, "%s ", ent->flags);
 	i += ft_sprintf(out + i, "%*d ", colw->lnk + 1, ent->stat->st_nlink);
-	i += ft_sprintf(out + i, "%-*s ", colw->user + 1, ent->pwd->pw_name);
-	i += ft_sprintf(out + i, "%-*s ", colw->grp + 1, ent->grp->gr_name);
+	i += ft_sprintf(out + i, "%-*s ", colw->user + 1, ent->usr_name);
+	i += ft_sprintf(out + i, "%-*s ", colw->grp + 1, ent->grp_name);
 	if (ent->stat->st_rdev > 0)
 	{
 		i += ft_sprintf(out + i, "%*d, ", colw->maj, major(ent->stat->st_rdev));
@@ -159,7 +160,6 @@ static void		ft_ls_print_files_long(t_ls *ls, t_list *lst)
 	char		line[2048];
 
 	ft_ls_get_columns_width(lst, &colw);
-	ft_printf("total %d\n", ft_ls_get_block_total(lst));
 	while (lst)
 	{
 		ent = lst->content;
@@ -191,6 +191,7 @@ static void		ft_ls_print_dir(t_ls *ls, t_list **lst, int p_dirname)
 		{
 			if (p_dirname)
 				ft_printf("\n%s:\n", (char*)tmp->content);
+			ft_printf("total %d\n", ft_ls_get_block_total(entries.flst));
 			if (entries.elst)
 				ft_ls_print_err(ls, &entries.elst);
 			if (entries.flst)
