@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 19:09:33 by orenkay           #+#    #+#             */
-/*   Updated: 2018/02/27 18:16:34 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/02/28 20:21:26 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,18 @@ static int	ft_ls_get_opt_flag(int c)
 		return (FT_LS_OPT_REVERSE);
 	if (c == 't')
 		return (FT_LS_OPT_S_MTIME);
+	if (c == 'S')
+		return (FT_LS_OPT_S_SIZE);
+	if (c == 'u')
+		return (FT_LS_OPT_S_ATIME);
+	if (c == 'U')
+		return (FT_LS_OPT_S_BIRTH);
+	if (c == 'f')
+		return (FT_LS_OPT_F + FT_LS_OPT_ALL);
+	if (c == 'g')
+		return (FT_LS_OPT_GRP_ONLY);
+	if (c == 'd')
+		return (FT_LS_OPT_D);
 	if (c == '1')
 		return (FT_LS_OPT_ONE);
 	return (0);
@@ -43,12 +55,12 @@ void		ft_ls_aget_entries(t_ls *ls, t_ls_entries *entries, int ac, char **av)
 		if (*av[i] == '-')
 			continue ;
 		if ((ent = ft_ls_entnew(ls, av[i])))
-			ft_ls_add_entry(ent, entries, 1);
+			ft_ls_add_entry(ls, ent, entries, 1);
 	}
 	if (!entries->elst && !entries->flst && !entries->dlst)
 	{
 		if ((ent = ft_ls_entnew(ls, ".")))
-			ft_ls_add_entry(ent, entries, 1);
+			ft_ls_add_entry(ls, ent, entries, 1);
 	}
 }
 

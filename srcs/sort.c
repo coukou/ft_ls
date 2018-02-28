@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 18:26:57 by orenkay           #+#    #+#             */
-/*   Updated: 2018/02/26 18:33:21 by orenkay          ###   ########.fr       */
+/*   Updated: 2018/02/28 19:49:38 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,35 +17,54 @@ int		ft_ls_sort_alpha(void *a, void *b)
 	return (ft_strcmp(((t_ls_ent*)a)->name, ((t_ls_ent*)b)->name));
 }
 
-int		ft_ls_sortr_alpha(void *a, void *b)
-{
-	return (ft_ls_sort_alpha(b, a));
-}
-
 int		ft_ls_sort_mtime(void *a, void *b)
 {
-	time_t atime;
-	time_t btime;
+	time_t a_value;
+	time_t b_value;
 
-	atime = ((t_ls_ent*)a)->stat->st_mtime;
-	btime = ((t_ls_ent*)b)->stat->st_mtime;
-	if (atime == btime)
+	a_value = ((t_ls_ent*)a)->stat->st_mtime;
+	b_value = ((t_ls_ent*)b)->stat->st_mtime;
+	if (a_value == b_value)
 		return (ft_ls_sort_alpha(a, b));
-	return (atime > btime) ? -1 : 1;
+	return (a_value > b_value) ? -1 : 1;
 }
 
-int		ft_ls_sortr_mtime(void *a, void *b)
+int		ft_ls_sort_atime(void *a, void *b)
 {
-	return (ft_ls_sort_mtime(b, a));
+	time_t	a_value;
+	time_t	b_value;
+
+	a_value = ((t_ls_ent*)a)->stat->st_atime;
+	b_value = ((t_ls_ent*)b)->stat->st_atime;
+	if (a_value == b_value)
+		return (ft_ls_sort_alpha(a, b));
+	return (a_value > b_value) ? -1 : 1;
 }
 
-void	ft_ls_init_sortfn(t_ls *ls)
+int		ft_ls_sort_size(void *a, void *b)
 {
-	int reverse;
+	off_t	a_value;
+	off_t	b_value;
 
-	reverse = FT_MASK_EQ(ls->opts, FT_LS_OPT_REVERSE);
+	a_value = ((t_ls_ent*)a)->stat->st_size;
+	b_value = ((t_ls_ent*)b)->stat->st_size;
+	if (a_value == b_value)
+		return (ft_ls_sort_alpha(a, b));
+	return (a_value > b_value) ? -1 : 1;
+}
+
+
+int		(*ft_ls_get_sortfn(t_ls *ls))(void*, void*)
+{
+	if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_BIRTH) &&
+		FT_MASK_EQ(ls->opts, FT_LS_OPT_S_MTIME))
+		return (&ft_ls_sort_birth);
+	if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_ATIME) &&
+		FT_MASK_EQ(ls->opts, FT_LS_OPT_S_MTIME))
+		return (&ft_ls_sort_atime);
 	if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_MTIME))
-		ls->sortfn = (!reverse) ? &ft_ls_sort_mtime : &ft_ls_sortr_mtime;
-	else
-		ls->sortfn = (!reverse) ? &ft_ls_sort_alpha : &ft_ls_sortr_alpha;
+		return (&ft_ls_sort_mtime);
+	if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_SIZE))
+		return (&ft_ls_sort_size);
+	return (&ft_ls_sort_alpha);
 }
