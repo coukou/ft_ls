@@ -6,7 +6,7 @@
 /*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 17:46:10 by spopieul          #+#    #+#             */
-/*   Updated: 2018/02/26 19:55:57 by orenkay          ###   ########.fr       */
+/*   Updated: 2018/03/01 12:28:03 by orenkay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void		ft_pf_format_s(t_pf_state *state)
 	data.width = state->width;
 	if (state->width != -1)
 		data.width = FT_ABS(state->width);
-	data.width = FT_MIN(data.width - data.len, 0);
+	data.width = FT_MAX((int)(data.width - data.len), 0);
 	data.pchar = (FT_MASK_EQ(state->flags, M_FLAG_ZERO) ? "0" : " ");
 	ft_pf_write_s(state, &data, str);
 }
@@ -49,7 +49,7 @@ void		ft_pf_format_signed(t_pf_state *state)
 	if (*data.value == '0' && state->precision == 0)
 		data.len = 0;
 	data.bpad = "";
-	data.precision = FT_MIN(state->precision - (int)data.len, 0);
+	data.precision = FT_MAX(state->precision - (int)data.len, 0);
 	data.width = ft_pf_get_pad_width(state, &data);
 	data.pchar = (FT_MASK_EQ(state->flags, M_FLAG_ZERO) ? "0" : " ");
 	if (state->precision > -1)
@@ -70,7 +70,7 @@ void		ft_pf_format_unsigned(t_pf_state *state)
 	if (*data.value == '0' && state->precision == 0)
 		data.len = 0;
 	data.bpad = ft_pf_get_base_padding(state, &data);
-	data.precision = FT_MIN(state->precision - (int)data.len, 0);
+	data.precision = FT_MAX(state->precision - (int)data.len, 0);
 	data.width = ft_pf_get_pad_width(state, &data);
 	if (ft_tolower(state->specifier) == 'o')
 		data.precision -= (int)ft_strlen(data.bpad);

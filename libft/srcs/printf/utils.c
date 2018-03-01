@@ -6,7 +6,7 @@
 /*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 16:59:15 by spopieul          #+#    #+#             */
-/*   Updated: 2018/02/26 19:53:40 by orenkay          ###   ########.fr       */
+/*   Updated: 2018/03/01 12:25:08 by orenkay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ size_t	ft_pf_get_pad_width(t_pf_state *state, t_pf_data *data)
 	int dlen;
 	int blen;
 
-	dlen = (int)data->len + (int)data->precision;
+	dlen = (int)data->len + data->precision;
 	slen = (int)ft_strlen(data->sign);
 	blen = (int)ft_strlen(data->bpad);
 	width = (state->width < -1) ? FT_ABS(state->width) : state->width;
-	return (FT_MIN(width - dlen - slen - blen, 0));
+	return (FT_MAX(width - dlen - slen - blen, 0));
 }
 
 int		ft_pf_get_base(t_pf_state *state)

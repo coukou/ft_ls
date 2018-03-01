@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entry3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 19:56:22 by spopieul          #+#    #+#             */
-/*   Updated: 2018/02/28 22:07:20 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/01 13:38:08 by orenkay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_ls_set_date(t_ls *ls, t_ls_ent *ent)
 	else
 		t = ent->stat->st_mtime;
 	tmp = ctime(&t);
-	if ((time(NULL) - t) >= (2629743 * 6))
+	if ((time(NULL) - t) >= (FT_LS_MONTH_TIME * 6))
 		ft_sprintf(ent->date, "%.4s%.3s%5.4s", tmp + 4, tmp + 8, tmp + 20);
 	else
 		ft_sprintf(ent->date, "%.4s%.3s%5.5s", tmp + 4, tmp + 8, tmp + 11);

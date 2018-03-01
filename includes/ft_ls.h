@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 18:35:40 by orenkay           #+#    #+#             */
-/*   Updated: 2018/02/28 22:13:26 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/01 13:38:10 by orenkay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@
 # define FT_LS_OPT_S_MTIME		0x200
 # define FT_LS_OPT_S_BIRTH		0x400
 # define FT_LS_OPT_S_SIZE		0x800
+
+# define FT_LS_MONTH_TIME		2629743
 
 typedef struct winsize	t_winsize;
 typedef struct dirent	t_dirent;

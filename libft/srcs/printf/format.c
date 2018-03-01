@@ -6,7 +6,7 @@
 /*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 17:43:46 by spopieul          #+#    #+#             */
-/*   Updated: 2018/02/25 18:01:41 by orenkay          ###   ########.fr       */
+/*   Updated: 2018/03/01 12:27:53 by orenkay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ void		ft_pf_format_p(t_pf_state *state)
 	ft_strtolower(data.value);
 	data.len = (state->precision == 0) ? 0 : ft_strlen(data.value);
 	data.bpad = "0x";
-	data.precision = FT_MIN(state->precision - data.len, 0);
+	data.precision = FT_MAX(state->precision - (int)data.len, 0);
 	data.pchar = (FT_MASK_EQ(state->flags, M_FLAG_ZERO) ? "0" : " ");
 	data.sign = "";
-	data.width = FT_MIN(FT_ABS(state->width) - (data.len + 2), 0);
+	data.width = FT_MAX(FT_ABS(state->width) - (int)(data.len + 2), 0);
 	ft_pf_write_data(state, &data);
 }
 
@@ -91,7 +91,7 @@ void		ft_pf_format_ws(t_pf_state *state)
 	data.width = state->width;
 	if (state->width != -1)
 		data.width = FT_ABS(state->width);
-	data.width = FT_MIN(data.width - data.len, 0);
+	data.width = FT_MAX((int)(data.width - data.len), 0);
 	data.pchar = (FT_MASK_EQ(state->flags, M_FLAG_ZERO) ? "0" : " ");
 	ft_pf_write_ws(state, &data, wstr);
 }
