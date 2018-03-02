@@ -6,7 +6,7 @@
 /*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 19:18:07 by orenkay           #+#    #+#             */
-/*   Updated: 2018/03/01 13:36:32 by orenkay          ###   ########.fr       */
+/*   Updated: 2018/03/01 15:57:46 by orenkay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,14 @@ int		ft_ls_get_block_total(t_list *lst)
 	return (res);
 }
 
-int		ft_ls_get_column_width(t_list *lst)
+int		ft_ls_get_max_column_width(t_list *lst)
 {
 	int width;
-	int tmp;
 
 	width = 0;
 	while (lst)
 	{
-		tmp = ft_strlen(((t_ls_ent*)lst->content)->name);
-		if (tmp > width)
-			width = tmp;
+		width = FT_MAX(ft_strlen(((t_ls_ent*)lst->content)->name), width);
 		lst = lst->next;
 	}
 	return (width);

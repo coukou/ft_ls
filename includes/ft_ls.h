@@ -6,7 +6,7 @@
 /*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 18:35:40 by orenkay           #+#    #+#             */
-/*   Updated: 2018/03/01 13:38:10 by orenkay          ###   ########.fr       */
+/*   Updated: 2018/03/01 15:57:23 by orenkay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void			ft_ls_print_files_long(t_ls *ls, t_list *lst);
 void			ft_ls_print_dir(t_ls *ls, t_list **lst, int print_path);
 void			ft_ls_format_long_line(t_ls_ent *ent, t_ls_colw *colw, char *color, char *out);
 void			ft_ls_get_columns_width(t_list *lst, t_ls_colw *colw);
+int				ft_ls_get_max_column_width(t_list *lst);
 int				ft_ls_get_block_total(t_list *lst);
 void			ft_ls_set_path(t_ls *ls, const char *path);
 int				ft_ls_sort_birth(void *a, void *b);

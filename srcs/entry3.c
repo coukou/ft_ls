@@ -6,7 +6,7 @@
 /*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 19:56:22 by spopieul          #+#    #+#             */
-/*   Updated: 2018/03/01 13:38:08 by orenkay          ###   ########.fr       */
+/*   Updated: 2018/03/01 15:34:08 by orenkay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_ls_set_date(t_ls *ls, t_ls_ent *ent)
 	time_t	t;
 
 	if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_BIRTH))
-		t = ent->stat->st_birthtime;
+		; // t = ent->stat->st_birthtime;
 	else if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_ATIME))
 		t = ent->stat->st_atime;
 	else
