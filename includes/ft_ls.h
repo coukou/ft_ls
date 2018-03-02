@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 18:35:40 by orenkay           #+#    #+#             */
-/*   Updated: 2018/03/02 15:44:40 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/02 20:37:32 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,8 @@ char			*ft_ls_get_ent_letter(t_ls_ent *ent);
 void			ft_ls_set_flags(t_ls_ent *ent);
 void			ft_ls_set_grp_name(t_ls_ent *ent);
 void			ft_ls_set_usr_name(t_ls *ls, t_ls_ent *ent);
-t_ls_ent		*ft_ls_entnew(t_ls *ls, const char *filename);
+t_ls_ent		*ft_ls_entnew(t_ls *ls, const char *filename,
+								int (*statfn)(const char *restrict, t_stat*));
 
 /*
 ** ----- entry2.c -----

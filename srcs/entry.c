@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 11:17:44 by orenkay           #+#    #+#             */
-/*   Updated: 2018/03/02 15:30:14 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/02 20:34:55 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void		ft_ls_set_usr_name(t_ls *ls, t_ls_ent *ent)
 		ft_strcpy(ent->usr_name, pwd->pw_name);
 }
 
-t_ls_ent	*ft_ls_entnew(t_ls *ls, const char *filename)
+t_ls_ent	*ft_ls_entnew(t_ls *ls, const char *filename, int (*statfn)(const char *restrict, t_stat*))
 {
 	t_ls_ent	*ent;
 
@@ -91,7 +91,7 @@ t_ls_ent	*ft_ls_entnew(t_ls *ls, const char *filename)
 		ft_ls_entdel(ent);
 		return (NULL);
 	}
-	if ((lstat(ent->path, ent->stat) != -1) &&
+	if ((statfn(ent->path, ent->stat) != -1) &&
 		FT_MASK_EQ(ls->opts, FT_LS_OPT_LONG))
 	{
 		if ((ent->stat->st_mode & S_IFMT) == S_IFLNK)

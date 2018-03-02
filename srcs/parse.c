@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 19:09:33 by orenkay           #+#    #+#             */
-/*   Updated: 2018/03/02 15:35:27 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/02 20:36:02 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ void		ft_ls_aget_entries(t_ls *ls, t_ls_entries *entries,
 	{
 		if (*av[i] == '-')
 			continue ;
-		if ((ent = ft_ls_entnew(ls, av[i])))
+		if ((ent = ft_ls_entnew(ls, av[i], &stat)))
 			ft_ls_add_entry(ls, ent, entries, 1);
 	}
 	if (!entries->elst && !entries->flst && !entries->dlst)
 	{
-		if ((ent = ft_ls_entnew(ls, ".")))
+		if ((ent = ft_ls_entnew(ls, ".", &lstat)))
 			ft_ls_add_entry(ls, ent, entries, 1);
 	}
 }

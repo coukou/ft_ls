@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:37:24 by spopieul          #+#    #+#             */
-/*   Updated: 2018/03/02 15:44:55 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/02 20:36:09 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int		ft_ls_get_dir_entries(t_ls *ls, const char *path, t_ls_entries *entries)
 	{
 		if (!FT_MASK_EQ(ls->opts, FT_LS_OPT_ALL) && *(tmp->d_name) == '.')
 			continue ;
-		if ((ent = ft_ls_entnew(ls, tmp->d_name)))
+		if ((ent = ft_ls_entnew(ls, tmp->d_name, &lstat)))
 			ft_ls_add_entry(ls, ent, entries, 0);
 	}
 	closedir(dir);
