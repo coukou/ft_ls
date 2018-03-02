@@ -6,13 +6,13 @@
 #    By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/21 16:54:27 by spopieul          #+#    #+#              #
-#    Updated: 2018/02/28 21:13:22 by spopieul         ###   ########.fr        #
+#    Updated: 2018/03/02 15:48:27 by spopieul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 CC = gcc
-CFLAGS = #-Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 INC = -I includes/ -I libft/includes
 
@@ -40,10 +40,10 @@ all: $(NAME)
 
 clean:
 	@/bin/rm -rf $(OBJS)
-#	$(LIBFT_MAKE) clean
+	$(LIBFT_MAKE) clean
 
 fclean: clean
 	@/bin/rm -rf $(NAME)
-#	$(LIBFT_MAKE) fclean
+	$(LIBFT_MAKE) fclean
 
 re: fclean all

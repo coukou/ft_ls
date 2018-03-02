@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 19:18:07 by orenkay           #+#    #+#             */
-/*   Updated: 2018/03/01 15:57:46 by orenkay          ###   ########.fr       */
+/*   Updated: 2018/03/02 15:37:04 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void		ft_ls_clean(t_ls *ls)
+void	ft_ls_clean(t_ls *ls)
 {
 	ft_strdel(&ls->wpath);
 }
 
-void		ft_ls_exit(t_ls *ls, const char *msg, int exit_code)
+void	ft_ls_exit(t_ls *ls, const char *msg, int exit_code)
 {
 	ft_ls_clean(ls);
 	if (msg)
@@ -45,17 +45,4 @@ int		ft_ls_get_block_total(t_list *lst)
 		lst = lst->next;
 	}
 	return (res);
-}
-
-int		ft_ls_get_max_column_width(t_list *lst)
-{
-	int width;
-
-	width = 0;
-	while (lst)
-	{
-		width = FT_MAX(ft_strlen(((t_ls_ent*)lst->content)->name), width);
-		lst = lst->next;
-	}
-	return (width);
 }

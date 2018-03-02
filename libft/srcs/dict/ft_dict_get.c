@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmap.c                                        :+:      :+:    :+:   */
+/*   ft_dict_get.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/10 00:18:07 by spopieul          #+#    #+#             */
-/*   Updated: 2017/11/14 17:16:14 by spopieul         ###   ########.fr       */
+/*   Created: 2018/02/27 12:14:19 by orenkay           #+#    #+#             */
+/*   Updated: 2018/02/27 12:40:40 by orenkay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "libft/dict.h"
+#include "libft/string.h"
 
-char	*ft_strmap(const char *s, char (*f)(char))
+void	*ft_dict_get(t_dict *dict, char *key)
 {
-	size_t	i;
-	char	*n;
-
-	if (s == NULL)
-		return (NULL);
-	i = -1;
-	n = ft_strnew(ft_strlen(s));
-	if (n == NULL)
-		return (n);
-	while (s[++i])
-		n[i] = f(s[i]);
-	return (n);
+	while (dict)
+	{
+		if (ft_strequ(dict->key, key))
+			return (dict->value);
+		dict = dict->next;
+	}
+	return (NULL);
 }

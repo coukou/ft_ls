@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   column.c                                           :+:      :+:    :+:   */
+/*   dict.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/28 21:12:30 by spopieul          #+#    #+#             */
-/*   Updated: 2018/03/01 15:54:43 by orenkay          ###   ########.fr       */
+/*   Created: 2018/02/27 12:11:12 by orenkay           #+#    #+#             */
+/*   Updated: 2018/02/27 12:22:49 by orenkay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ls.h"
+#ifndef FT_DICT_H
+# define FT_DICT_H
 
-int		ft_ls_get_columns(t_ls *ls, t_list *lst)
+typedef struct		s_dict
 {
-	int column_width;
+	char			*key;
+	void 			*value;
+	struct s_dict	*next;
+}					t_dict;
 
-	column_width = ft_ls_get_column_width(lst);
-	return ceil((double)ls->term_width / column_width);
-}
+void	*ft_dict_get(t_dict *dict, char *key);
+void	ft_dict_del(t_dict **dict, char *key, void *value);
+void	ft_dict_set(t_dict **dict, char *key, void *value);
+
+#endif

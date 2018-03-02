@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 19:36:37 by spopieul          #+#    #+#             */
-/*   Updated: 2018/03/01 16:55:28 by orenkay          ###   ########.fr       */
+/*   Updated: 2018/03/02 15:36:22 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void		ft_ls_print_err(t_ls *ls, t_list **lst)
 {
-	char *err;
+	char	*err;
 
+	(void)ls;
 	while ((err = ft_lstpop(lst)))
 	{
 		ft_printf("ft_ls: %s\n", err);

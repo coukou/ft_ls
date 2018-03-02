@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 18:26:57 by orenkay           #+#    #+#             */
-/*   Updated: 2018/02/28 19:49:38 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/02 15:36:41 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,18 @@ int		ft_ls_sort_size(void *a, void *b)
 	return (a_value > b_value) ? -1 : 1;
 }
 
-
-int		(*ft_ls_get_sortfn(t_ls *ls))(void*, void*)
+void	ft_ls_get_sortfn(t_ls *ls, int (**out)(void*, void*))
 {
 	if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_BIRTH) &&
 		FT_MASK_EQ(ls->opts, FT_LS_OPT_S_MTIME))
-		return (&ft_ls_sort_birth);
-	if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_ATIME) &&
+		*out = &ft_ls_sort_birth;
+	else if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_ATIME) &&
 		FT_MASK_EQ(ls->opts, FT_LS_OPT_S_MTIME))
-		return (&ft_ls_sort_atime);
-	if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_MTIME))
-		return (&ft_ls_sort_mtime);
-	if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_SIZE))
-		return (&ft_ls_sort_size);
-	return (&ft_ls_sort_alpha);
+		*out = &ft_ls_sort_atime;
+	else if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_MTIME))
+		*out = &ft_ls_sort_mtime;
+	else if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_SIZE))
+		*out = &ft_ls_sort_size;
+	else
+		*out = &ft_ls_sort_alpha;
 }

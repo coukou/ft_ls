@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   format.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 19:39:28 by spopieul          #+#    #+#             */
-/*   Updated: 2018/03/01 13:32:19 by orenkay          ###   ########.fr       */
+/*   Updated: 2018/03/02 15:31:15 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,17 @@ void		ft_ls_get_columns_width(t_list *lst, t_ls_colw *colw)
 		colw->user = FT_MAX(ft_strlen(ent->usr_name), colw->user);
 		colw->date = FT_MAX(ft_strlen(ent->date), colw->date);
 		if (ent->stat->st_rdev)
-			colw->maj = FT_MAX(ft_nbrlen(major(ent->stat->st_rdev), 10), colw->maj);
+			colw->maj = FT_MAX(ft_nbrlen(major(ent->stat->st_rdev), 10),
+								colw->maj);
 		if (ent->stat->st_rdev)
-			colw->size = FT_MAX(ft_nbrlen(minor(ent->stat->st_rdev), 10), colw->size);
+			colw->size = FT_MAX(ft_nbrlen(minor(ent->stat->st_rdev), 10),
+								colw->size);
 		lst = lst->next;
 	}
 }
 
-void		ft_ls_format_long_line(t_ls_ent *ent, t_ls_colw *colw, char *color, char *out)
+void		ft_ls_format_long_line(t_ls_ent *ent, t_ls_colw *colw,
+									char *color, char *out)
 {
 	out += ft_sprintf(out, "%s ", ent->flags);
 	out += ft_sprintf(out, "%*d ", colw->lnk, ent->stat->st_nlink);

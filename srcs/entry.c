@@ -6,13 +6,13 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 11:17:44 by orenkay           #+#    #+#             */
-/*   Updated: 2018/02/28 22:26:53 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/02 15:30:14 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-char	*ft_ls_get_ent_letter(t_ls_ent *ent)
+char		*ft_ls_get_ent_letter(t_ls_ent *ent)
 {
 	int type;
 
@@ -33,7 +33,7 @@ char	*ft_ls_get_ent_letter(t_ls_ent *ent)
 		return ("-");
 }
 
-void	ft_ls_set_flags(t_ls_ent *ent)
+void		ft_ls_set_flags(t_ls_ent *ent)
 {
 	int i;
 	int m;
@@ -79,8 +79,7 @@ void		ft_ls_set_usr_name(t_ls *ls, t_ls_ent *ent)
 
 t_ls_ent	*ft_ls_entnew(t_ls *ls, const char *filename)
 {
-	t_ls_ent *ent;
-	int ret;
+	t_ls_ent	*ent;
 
 	if (!(ent = ft_memalloc(sizeof(*ent))))
 		return (NULL);
@@ -92,7 +91,8 @@ t_ls_ent	*ft_ls_entnew(t_ls *ls, const char *filename)
 		ft_ls_entdel(ent);
 		return (NULL);
 	}
-	if ((lstat(ent->path, ent->stat) != -1) && FT_MASK_EQ(ls->opts, FT_LS_OPT_LONG))
+	if ((lstat(ent->path, ent->stat) != -1) &&
+		FT_MASK_EQ(ls->opts, FT_LS_OPT_LONG))
 	{
 		if ((ent->stat->st_mode & S_IFMT) == S_IFLNK)
 			readlink(ent->path, ent->lnk, sizeof(ent->lnk) - 1);

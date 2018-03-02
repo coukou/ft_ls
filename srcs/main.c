@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 18:25:28 by orenkay           #+#    #+#             */
-/*   Updated: 2018/03/01 15:36:21 by orenkay          ###   ########.fr       */
+/*   Updated: 2018/03/02 15:34:02 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ static void		ft_ls_start(t_ls *ls, t_ls_entries *entries)
 		ft_ls_print_dir(ls, &entries->dlst, print_path);
 }
 
-int main(int ac, char **av)
+int				main(int ac, char **av)
 {
 	t_ls			ls;
-	t_ls_entries 	entries;
+	t_ls_entries	entries;
 
 	ft_ls_init(&ls, &entries, ac, av);
 	ft_ls_start(&ls, &entries);
