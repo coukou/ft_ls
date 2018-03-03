@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 19:09:33 by orenkay           #+#    #+#             */
-/*   Updated: 2018/03/02 20:36:02 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/03 13:07:39 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ static int	ft_ls_get_opt_flag(int c)
 		return (FT_LS_OPT_S_SIZE);
 	if (c == 'U')
 		return (FT_LS_OPT_S_BIRTH);
-	if (c == '1')
-		return (FT_LS_OPT_ONE);
 	if (c == 'a')
 		return (FT_LS_OPT_ALL);
 	if (c == 'd')

@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 19:39:28 by spopieul          #+#    #+#             */
-/*   Updated: 2018/03/02 20:43:58 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/03 14:08:11 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void		ft_ls_format_long_line(t_ls_ent *ent, t_ls_colw *colw,
 {
 	out += ft_sprintf(out, "%s ", ent->flags);
 	out += ft_sprintf(out, "%*d ", colw->lnk + 1, ent->stat->st_nlink);
-	out += ft_sprintf(out, "%-*s ", colw->user + 1, ent->usr_name);
+	if (*ent->usr_name)
+		out += ft_sprintf(out, "%-*s ", colw->user + 1, ent->usr_name);
 	out += ft_sprintf(out, "%-*s", colw->grp, ent->grp_name);
 	if (ent->stat->st_rdev)
 	{

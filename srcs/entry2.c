@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 19:42:27 by spopieul          #+#    #+#             */
-/*   Updated: 2018/03/02 20:32:01 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/03 13:29:39 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void		ft_ls_add_dir_entry(t_ls *ls, t_ls_ent *ent,
 void		ft_ls_add_entry(t_ls *ls, t_ls_ent *ent,
 							t_ls_entries *entries, int start)
 {
+	if (!ent)
+		return ;
 	if ((ent->stat->st_mode & S_IFMT) == S_IFDIR)
 		ft_ls_add_dir_entry(ls, ent, entries, start);
 	if ((ent->stat->st_mode & S_IFMT) == 0)

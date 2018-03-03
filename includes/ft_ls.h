@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 18:35:40 by orenkay           #+#    #+#             */
-/*   Updated: 2018/03/02 20:37:32 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/03 13:08:08 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <string.h>
 # include "libft.h"
 
-# define FT_LS_USAGE_STR		"RSU1adfglrtu"
+# define FT_LS_USAGE_STR		"RSUadfglrtu"
 # define FT_LS_COLOR_CHARSET	"abcdefgh"
 
 # define FT_LS_OPT_ALL			0x01
@@ -35,13 +35,12 @@
 # define FT_LS_OPT_F			0x04
 # define FT_LS_OPT_GRP_ONLY		0x08
 # define FT_LS_OPT_LONG			0x10
-# define FT_LS_OPT_ONE			0x20
-# define FT_LS_OPT_RECURSIVE	0x40
-# define FT_LS_OPT_REVERSE		0x80
-# define FT_LS_OPT_S_ATIME		0x100
-# define FT_LS_OPT_S_MTIME		0x200
-# define FT_LS_OPT_S_BIRTH		0x400
-# define FT_LS_OPT_S_SIZE		0x800
+# define FT_LS_OPT_RECURSIVE	0x20
+# define FT_LS_OPT_REVERSE		0x40
+# define FT_LS_OPT_S_ATIME		0x80
+# define FT_LS_OPT_S_MTIME		0x100
+# define FT_LS_OPT_S_BIRTH		0x200
+# define FT_LS_OPT_S_SIZE		0x400
 
 # define FT_LS_6_MONTH_TIME		2629743 * 6
 

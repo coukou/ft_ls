@@ -6,7 +6,7 @@
 #    By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/21 16:54:27 by spopieul          #+#    #+#              #
-#    Updated: 2018/03/02 20:45:28 by spopieul         ###   ########.fr        #
+#    Updated: 2018/03/03 15:11:22 by spopieul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ OBJS_FILES = \
 	main.o parse.o utils.o entry.o entry2.o \
 	entry3.o sort.o sort2.o color.o print.o \
 	format.o
+
 OBJS = $(addprefix $(OBJS_DIR)/, $(OBJS_FILES))
 
 LIBFT_MAKE = @make -s -C libft
@@ -34,7 +35,7 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 
 $(NAME): $(OBJS)
 	$(LIBFT_MAKE)
-	$(CC) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) $(LIBFT) $(OBJS) -o $(NAME)
 
 all: $(NAME)
 
