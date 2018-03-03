@@ -35,4 +35,6 @@
 
 -u	Use time of last access, instead of last modification of the
 	file for sorting (-t) or long printing (-l)
+
+-G	Enable colorized output.
 ```

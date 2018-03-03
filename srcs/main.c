@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 18:25:28 by orenkay           #+#    #+#             */
-/*   Updated: 2018/03/03 15:24:38 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/03 17:12:08 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 
 static void		ft_ls_init(t_ls *ls, t_ls_entries *entries, int ac, char **av)
 {
+	int i;
+
 	ls->opts = 0;
 	ls->error = 0;
 	ls->wpath = ft_strnew(0);
 	ft_ls_init_colors(ls);
-	ft_ls_aget_opts(ls, ac - 1, av + 1);
+	i = ft_ls_aget_opts(ls, ac, av);
 	if (!ls->wpath)
 		ft_ls_exit(ls, "init: something wrong happened", 2);
-	ft_ls_aget_entries(ls, entries, ac - 1, av + 1);
+	ft_ls_aget_entries(ls, entries, ac - i, av + i);
 }
 
 static void		ft_ls_start(t_ls *ls, t_ls_entries *entries)
@@ -46,7 +48,7 @@ int				main(int ac, char **av)
 	t_ls			ls;
 	t_ls_entries	entries;
 
-	ft_ls_init(&ls, &entries, ac, av);
+	ft_ls_init(&ls, &entries, ac - 1, av + 1);
 	ft_ls_start(&ls, &entries);
 	ft_ls_clean(&ls);
 	return (ls.error);

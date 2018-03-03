@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 18:26:57 by orenkay           #+#    #+#             */
-/*   Updated: 2018/03/02 15:36:41 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/03 17:52:37 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ int		ft_ls_sort_size(void *a, void *b)
 
 void	ft_ls_get_sortfn(t_ls *ls, int (**out)(void*, void*))
 {
-	if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_BIRTH) &&
+	if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_SIZE))
+		*out = &ft_ls_sort_size;
+	else if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_BIRTH) &&
 		FT_MASK_EQ(ls->opts, FT_LS_OPT_S_MTIME))
 		*out = &ft_ls_sort_birth;
 	else if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_ATIME) &&
@@ -63,8 +65,6 @@ void	ft_ls_get_sortfn(t_ls *ls, int (**out)(void*, void*))
 		*out = &ft_ls_sort_atime;
 	else if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_MTIME))
 		*out = &ft_ls_sort_mtime;
-	else if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_SIZE))
-		*out = &ft_ls_sort_size;
 	else
 		*out = &ft_ls_sort_alpha;
 }

@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 19:09:33 by orenkay           #+#    #+#             */
-/*   Updated: 2018/03/03 13:07:39 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/03 17:41:09 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static int	ft_ls_get_opt_flag(int c)
 		return (FT_LS_OPT_S_MTIME);
 	if (c == 'u')
 		return (FT_LS_OPT_S_ATIME);
+	if (c == 'G')
+		return (FT_LS_OPT_COLOR);
 	return (0);
 }
 
@@ -51,8 +53,6 @@ void		ft_ls_aget_entries(t_ls *ls, t_ls_entries *entries,
 	entries->dlst = NULL;
 	while (++i < ac)
 	{
-		if (*av[i] == '-')
-			continue ;
 		if ((ent = ft_ls_entnew(ls, av[i], &stat)))
 			ft_ls_add_entry(ls, ent, entries, 1);
 	}
@@ -61,9 +61,10 @@ void		ft_ls_aget_entries(t_ls *ls, t_ls_entries *entries,
 		if ((ent = ft_ls_entnew(ls, ".", &lstat)))
 			ft_ls_add_entry(ls, ent, entries, 1);
 	}
+	ft_ls_sort_entries(ls, entries);
 }
 
-void		ft_ls_aget_opts(t_ls *ls, int ac, char **av)
+int			ft_ls_aget_opts(t_ls *ls, int ac, char **av)
 {
 	int		i;
 	int		j;
@@ -74,19 +75,19 @@ void		ft_ls_aget_opts(t_ls *ls, int ac, char **av)
 	while (++i < ac)
 	{
 		j = 0;
-		if (av[i][j] == '-')
+		if (av[i][j] != '-' || !av[i][j + 1])
+			break ;
+		while (av[i][++j])
 		{
-			while (av[i][++j])
+			if (!(opt = ft_ls_get_opt_flag(av[i][j])))
 			{
-				if (!(opt = ft_ls_get_opt_flag(av[i][j])))
-				{
-					ft_sprintf(err,
-						"illegal option -- %c\nusage: ft_ls [-%s] [file ...]",
-						av[i][j], FT_LS_USAGE_STR);
-					return (ft_ls_exit(ls, err, 1));
-				}
-				ls->opts |= opt;
+				ft_sprintf(err,
+					"illegal option -- %c\nusage: ft_ls [-%s] [file ...]",
+					av[i][j], FT_LS_USAGE_STR);
+				ft_ls_exit(ls, err, 1);
 			}
+			ls->opts |= opt;
 		}
 	}
+	return (i);
 }

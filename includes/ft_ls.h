@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 18:35:40 by orenkay           #+#    #+#             */
-/*   Updated: 2018/03/03 15:24:56 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/03 17:41:06 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <string.h>
 # include "libft.h"
 
-# define FT_LS_USAGE_STR		"RSUadfglrtu"
+# define FT_LS_USAGE_STR		"GRSUadfglrtu"
 # define FT_LS_COLOR_CHARSET	"abcdefgh"
 
 # define FT_LS_OPT_ALL			0x01
@@ -40,6 +40,7 @@
 # define FT_LS_OPT_S_MTIME		0x100
 # define FT_LS_OPT_S_BIRTH		0x200
 # define FT_LS_OPT_S_SIZE		0x400
+# define FT_LS_OPT_COLOR		0x800
 
 # define FT_LS_6_MONTH_TIME		2629743 * 6
 
@@ -134,7 +135,7 @@ void			ft_ls_format_long_line(t_ls_ent *ent, t_ls_colw *colw,
 */
 void			ft_ls_aget_entries(t_ls *ls, t_ls_entries *entries,
 									int ac, char **av);
-void			ft_ls_aget_opts(t_ls *ls, int ac, char **av);
+int				ft_ls_aget_opts(t_ls *ls, int ac, char **av);
 
 /*
 ** ----- print.c -----

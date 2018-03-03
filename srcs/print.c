@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 19:36:37 by spopieul          #+#    #+#             */
-/*   Updated: 2018/03/02 20:43:46 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/03 17:45:39 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,13 @@ void		ft_ls_print_files_short(t_ls *ls, t_list *lst)
 
 	while ((ent = ft_lstpop(&lst)))
 	{
-		ft_ls_get_color(ls, color, ent);
-		ft_printf("%s%s\033[0m\n", color, ent->name);
+		if (FT_MASK_EQ(ls->opts, FT_LS_OPT_COLOR))
+		{
+			ft_ls_get_color(ls, color, ent);
+			ft_printf("%s%s\033[0m\n", color, ent->name);
+		}
+		else
+			ft_printf("%s\n", ent->name);
 		ft_ls_entdel(ent);
 	}
 }
@@ -47,7 +52,9 @@ void		ft_ls_print_files_long(t_ls *ls, t_list *lst)
 	ft_ls_get_columns_width(lst, &colw);
 	while ((ent = ft_lstpop(&lst)))
 	{
-		ft_ls_get_color(ls, color, ent);
+		*color = 0;
+		if (FT_MASK_EQ(ls->opts, FT_LS_OPT_COLOR))
+			ft_ls_get_color(ls, color, ent);
 		ft_ls_format_long_line(ent, &colw, color, line);
 		ft_printf("%s\n", line);
 		ft_ls_entdel(ent);

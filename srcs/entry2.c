@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 19:42:27 by spopieul          #+#    #+#             */
-/*   Updated: 2018/03/03 13:29:39 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/03 16:42:13 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,15 @@ void		ft_ls_add_entry(t_ls *ls, t_ls_ent *ent,
 {
 	if (!ent)
 		return ;
-	if ((ent->stat->st_mode & S_IFMT) == S_IFDIR)
+	if (!FT_MASK_EQ(ls->opts, FT_LS_OPT_D) &&
+		(ent->stat->st_mode & S_IFMT) == S_IFDIR)
 		ft_ls_add_dir_entry(ls, ent, entries, start);
 	if ((ent->stat->st_mode & S_IFMT) == 0)
 		ft_ls_add_err_entry(ent, entries);
 	else
 	{
-		if (start && (ent->stat->st_mode & S_IFMT) == S_IFDIR)
+		if (start && (ent->stat->st_mode & S_IFMT) == S_IFDIR &&
+			!FT_MASK_EQ(ls->opts, FT_LS_OPT_D))
 		{
 			free(ent);
 			return ;

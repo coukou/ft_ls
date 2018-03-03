@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 19:39:28 by spopieul          #+#    #+#             */
-/*   Updated: 2018/03/03 14:08:11 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/03 17:44:53 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,16 @@ void		ft_ls_get_columns_width(t_list *lst, t_ls_colw *colw)
 		colw->user = FT_MAX(ft_strlen(ent->usr_name), colw->user);
 		colw->date = FT_MAX(ft_strlen(ent->date), colw->date);
 		if (ent->stat->st_rdev)
+		{
 			colw->maj = FT_MAX(ft_nbrlen(major(ent->stat->st_rdev), 10),
 								colw->maj);
-		if (ent->stat->st_rdev)
 			colw->size = FT_MAX(ft_nbrlen(minor(ent->stat->st_rdev), 10),
 								colw->size);
+		}
 		lst = lst->next;
 	}
+	if (ent->stat->st_rdev)
+		colw->grp += 3;
 }
 
 void		ft_ls_format_long_line(t_ls_ent *ent, t_ls_colw *colw,
@@ -54,7 +57,10 @@ void		ft_ls_format_long_line(t_ls_ent *ent, t_ls_colw *colw,
 			ent->stat->st_size);
 	}
 	out += ft_sprintf(out, "%*s ", colw->date, ent->date);
-	out += ft_sprintf(out, "%s%s\033[0m", color, ent->name);
+	if (*color)
+		out += ft_sprintf(out, "%s%s\033[0m", color, ent->name);
+	else
+		out += ft_sprintf(out, "%s", ent->name);
 	if (*ent->lnk)
 		out += ft_sprintf(out, " -> %s", ent->lnk);
 }
