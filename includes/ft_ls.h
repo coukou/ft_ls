@@ -6,14 +6,13 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 18:35:40 by orenkay           #+#    #+#             */
-/*   Updated: 2018/03/03 13:08:08 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/03 15:24:56 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_LS_H
 # define FT_LS_H
 
-# include <sys/ioctl.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <stdlib.h>
@@ -44,7 +43,6 @@
 
 # define FT_LS_6_MONTH_TIME		2629743 * 6
 
-typedef struct winsize	t_winsize;
 typedef struct dirent	t_dirent;
 typedef struct group	t_group;
 typedef struct passwd	t_passwd;
@@ -85,7 +83,6 @@ typedef struct	s_ls
 	char		*wpath;
 	int			error;
 	int			opts;
-	int			term_width;
 	char		colors[11][32];
 }				t_ls;
 

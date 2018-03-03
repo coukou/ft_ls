@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 18:25:28 by orenkay           #+#    #+#             */
-/*   Updated: 2018/03/02 15:34:02 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/03 15:24:38 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 
 static void		ft_ls_init(t_ls *ls, t_ls_entries *entries, int ac, char **av)
 {
-	t_winsize ws;
-
-	if (ioctl(0, TIOCGWINSZ, &ws) == -1)
-		ls->term_width = 0;
-	else
-		ls->term_width = ws.ws_col;
 	ls->opts = 0;
 	ls->error = 0;
 	ls->wpath = ft_strnew(0);

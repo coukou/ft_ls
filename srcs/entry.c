@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 11:17:44 by orenkay           #+#    #+#             */
-/*   Updated: 2018/03/03 13:35:10 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/03 15:21:26 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void		ft_ls_set_usr_name(t_ls *ls, t_ls_ent *ent)
 		ft_strcpy(ent->usr_name, pwd->pw_name);
 }
 
-t_ls_ent	*ft_ls_entnew(t_ls *ls, const char *filename, int (*statfn)(const char *restrict, t_stat*))
+t_ls_ent	*ft_ls_entnew(t_ls *ls, const char *filename,
+							int (*statfn)(const char *restrict, t_stat*))
 {
 	t_ls_ent	*ent;
 
