@@ -6,7 +6,7 @@
 /*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 19:39:28 by spopieul          #+#    #+#             */
-/*   Updated: 2018/03/03 17:44:53 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/05 18:05:01 by spopieul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ void		ft_ls_get_columns_width(t_list *lst, t_ls_colw *colw)
 		ent = lst->content;
 		colw->lnk = FT_MAX(ft_nbrlen(ent->stat->st_nlink, 10), colw->lnk);
 		colw->size = FT_MAX(ft_nbrlen(ent->stat->st_size, 10), colw->size);
-		colw->grp = FT_MAX(ft_strlen(ent->grp_name), colw->grp);
+		colw->grp = FT_MAX(
+				ft_strlen(ent->grp_name) + ((ent->stat->st_rdev) ? 3 : 0),
+				colw->grp);
 		colw->user = FT_MAX(ft_strlen(ent->usr_name), colw->user);
 		colw->date = FT_MAX(ft_strlen(ent->date), colw->date);
 		if (ent->stat->st_rdev)
@@ -34,8 +36,6 @@ void		ft_ls_get_columns_width(t_list *lst, t_ls_colw *colw)
 		}
 		lst = lst->next;
 	}
-	if (ent->stat->st_rdev)
-		colw->grp += 3;
 }
 
 void		ft_ls_format_long_line(t_ls_ent *ent, t_ls_colw *colw,
