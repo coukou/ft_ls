@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   format.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 19:39:28 by spopieul          #+#    #+#             */
-/*   Updated: 2018/03/05 18:05:01 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/08 21:47:19 by orenkay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void		ft_ls_get_columns_width(t_list *lst, t_ls_colw *colw)
 		colw->date = FT_MAX(ft_strlen(ent->date), colw->date);
 		if (ent->stat->st_rdev)
 		{
-			colw->maj = FT_MAX(ft_nbrlen(major(ent->stat->st_rdev), 10),
+			colw->maj = FT_MAX(ft_nbrlen(FT_MAJOR(ent->stat->st_rdev), 10),
 								colw->maj);
-			colw->size = FT_MAX(ft_nbrlen(minor(ent->stat->st_rdev), 10),
+			colw->size = FT_MAX(ft_nbrlen(FT_MINOR(ent->stat->st_rdev), 10),
 								colw->size);
 		}
 		lst = lst->next;
@@ -48,8 +48,8 @@ void		ft_ls_format_long_line(t_ls_ent *ent, t_ls_colw *colw,
 	out += ft_sprintf(out, "%-*s", colw->grp, ent->grp_name);
 	if (ent->stat->st_rdev)
 	{
-		out += ft_sprintf(out, "%*d, ", colw->maj, major(ent->stat->st_rdev));
-		out += ft_sprintf(out, "%*d ", colw->size, minor(ent->stat->st_rdev));
+		out += ft_sprintf(out, "%*d, ", colw->maj, FT_MAJOR(ent->stat->st_rdev));
+		out += ft_sprintf(out, "%*d ", colw->size, FT_MINOR(ent->stat->st_rdev));
 	}
 	else
 	{

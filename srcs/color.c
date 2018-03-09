@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 19:33:11 by spopieul          #+#    #+#             */
-/*   Updated: 2018/03/05 18:24:40 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/08 20:16:28 by orenkay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,31 @@ void		ft_ls_init_colors(t_ls *ls)
 	}
 }
 
+void		ft_ls_get_color_dir(t_ls *ls, char *color, t_ls_ent *ent)
+{
+	if ((FT_MASK_EQ(ent->stat->st_mode, S_IWOTH)) &&
+		(FT_MASK_EQ(ent->stat->st_mode, S_ISVTX)))
+		ft_sprintf(color, "\033[%sm", ls->colors[9]);
+	else if ((FT_MASK_EQ(ent->stat->st_mode, S_IWOTH)))
+		ft_sprintf(color, "\033[%sm", ls->colors[10]);
+	else
+		ft_sprintf(color, "\033[%sm", ls->colors[0]);
+}
+
+void		ft_ls_get_color_exe(t_ls *ls, char *color, t_ls_ent *ent)
+{
+	if ((FT_MASK_EQ(ent->stat->st_mode, S_ISUID)))
+		ft_sprintf(color, "\033[%sm", ls->colors[7]);
+	else if ((FT_MASK_EQ(ent->stat->st_mode, S_ISGID)))
+		ft_sprintf(color, "\033[%sm", ls->colors[8]);
+	else
+		ft_sprintf(color, "\033[%sm", ls->colors[4]);
+}
+
 void		ft_ls_get_color(t_ls *ls, char *color, t_ls_ent *ent)
 {
 	if ((ent->stat->st_mode & S_IFMT) == S_IFDIR)
-	{
-		if ((FT_MASK_EQ(ent->stat->st_mode, S_IWOTH)) &&
-			(FT_MASK_EQ(ent->stat->st_mode, S_ISVTX)))
-			ft_sprintf(color, "\033[%sm", ls->colors[9]);
-		else if ((FT_MASK_EQ(ent->stat->st_mode, S_IWOTH)))
-			ft_sprintf(color, "\033[%sm", ls->colors[10]);
-		else
-			ft_sprintf(color, "\033[%sm", ls->colors[0]);
-	}
+		ft_ls_get_color_dir(ls, color, ent);
 	else if ((ent->stat->st_mode & S_IFMT) == S_IFLNK)
 		ft_sprintf(color, "\033[%sm", ls->colors[1]);
 	else if ((ent->stat->st_mode & S_IFMT) == S_IFSOCK)
@@ -74,7 +87,7 @@ void		ft_ls_get_color(t_ls *ls, char *color, t_ls_ent *ent)
 	else if ((ent->stat->st_mode & S_IFMT) == S_IFIFO)
 		ft_sprintf(color, "\033[%sm", ls->colors[3]);
 	else if ((FT_MASK_EQ(ent->stat->st_mode, S_IEXEC)))
-		ft_sprintf(color, "\033[%sm", ls->colors[4]);
+		ft_ls_get_color_exe(ls, color, ent);
 	else if ((ent->stat->st_mode & S_IFMT) == S_IFBLK)
 		ft_sprintf(color, "\033[%sm", ls->colors[5]);
 	else if ((ent->stat->st_mode & S_IFMT) == S_IFCHR)

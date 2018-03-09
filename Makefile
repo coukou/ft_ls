@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+         #
+#    By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/21 16:54:27 by spopieul          #+#    #+#              #
-#    Updated: 2018/03/03 17:16:03 by spopieul         ###   ########.fr        #
+#    Updated: 2018/03/08 19:44:12 by orenkay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra # -Werror
 
 INC = -I includes/ -I libft/includes
 
@@ -35,7 +35,7 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 
 $(NAME): $(OBJS)
 	$(LIBFT_MAKE)
-	$(CC) $(LIBFT) $(OBJS) -o $(NAME)
+	$(CC) $(OBJS) $(LIBFT) -o $(NAME)
 
 all: $(NAME)
 

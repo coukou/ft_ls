@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entry3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:37:24 by spopieul          #+#    #+#             */
-/*   Updated: 2018/03/02 20:36:09 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/08 19:42:42 by orenkay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_ls_set_date(t_ls *ls, t_ls_ent *ent)
 	time_t	t;
 
 	if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_BIRTH))
-		t = ent->stat->st_birthtime;
+		; // t = ent->stat->st_birthtime;
 	else if (FT_MASK_EQ(ls->opts, FT_LS_OPT_S_ATIME))
 		t = ent->stat->st_atime;
 	else

@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   sort2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 19:44:50 by spopieul          #+#    #+#             */
-/*   Updated: 2018/03/02 15:36:52 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/08 19:43:28 by orenkay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int		ft_ls_sort_birth(void *a, void *b)
-{
-	time_t	a_value;
-	time_t	b_value;
+// int		ft_ls_sort_birth(void *a, void *b)
+// {
+// 	time_t	a_value;
+// 	time_t	b_value;
 
-	a_value = ((t_ls_ent*)a)->stat->st_birthtime;
-	b_value = ((t_ls_ent*)b)->stat->st_birthtime;
-	if (a_value == b_value)
-		return (ft_ls_sort_alpha(a, b));
-	return (a_value > b_value) ? -1 : 1;
-}
+// 	a_value = ((t_ls_ent*)a)->stat->st_birthtime;
+// 	b_value = ((t_ls_ent*)b)->stat->st_birthtime;
+// 	if (a_value == b_value)
+// 		return (ft_ls_sort_alpha(a, b));
+// 	return (a_value > b_value) ? -1 : 1;
+// }
 
 void	ft_ls_sort_entries(t_ls *ls, t_ls_entries *entries)
 {

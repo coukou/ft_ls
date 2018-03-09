@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/25 18:35:40 by orenkay           #+#    #+#             */
-/*   Updated: 2018/03/03 17:41:06 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/09 01:51:36 by orenkay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@
 # define FT_LS_OPT_COLOR		0x800
 
 # define FT_LS_6_MONTH_TIME		2629743 * 6
+
+# define FT_MAJOR(n) ((n >> 8) & 0x7F)
+# define FT_MINOR(n) (n & 0xFF)
 
 typedef struct dirent	t_dirent;
 typedef struct group	t_group;
@@ -88,14 +91,14 @@ typedef struct	s_ls
 }				t_ls;
 
 /*
-** ----- color.c -----
+**				----- color.c -----
 */
 void			ft_ls_set_color(char *color, int fc, int bc);
 void			ft_ls_init_colors(t_ls *ls);
 void			ft_ls_get_color(t_ls *ls, char *color, t_ls_ent *ent);
 
 /*
-** ----- entry.c -----
+**				----- entry.c -----
 */
 char			*ft_ls_get_ent_letter(t_ls_ent *ent);
 void			ft_ls_set_flags(t_ls_ent *ent);
@@ -105,7 +108,7 @@ t_ls_ent		*ft_ls_entnew(t_ls *ls, const char *filename,
 								int (*statfn)(const char *restrict, t_stat*));
 
 /*
-** ----- entry2.c -----
+**				----- entry2.c -----
 */
 void			ft_ls_entdel(t_ls_ent *ent);
 t_ls_ent		*ft_ls_entdup(t_ls_ent *ent);
@@ -116,7 +119,7 @@ void			ft_ls_add_entry(t_ls *ls, t_ls_ent *ent,
 								t_ls_entries *entries, int start);
 
 /*
-** ----- entry3.c -----
+**				----- entry3.c -----
 */
 char			*ft_ls_get_ent_error(t_ls_ent *ent);
 void			ft_ls_set_date(t_ls *ls, t_ls_ent *ent);
@@ -124,21 +127,21 @@ int				ft_ls_get_dir_entries(t_ls *ls, const char *path,
 										t_ls_entries *entries);
 
 /*
-** ----- format.c -----
+**				----- format.c -----
 */
 void			ft_ls_get_columns_width(t_list *lst, t_ls_colw *colw);
 void			ft_ls_format_long_line(t_ls_ent *ent, t_ls_colw *colw,
 										char *color, char *out);
 
 /*
-** ----- parse.c -----
+**				----- parse.c -----
 */
 void			ft_ls_aget_entries(t_ls *ls, t_ls_entries *entries,
 									int ac, char **av);
 int				ft_ls_aget_opts(t_ls *ls, int ac, char **av);
 
 /*
-** ----- print.c -----
+**				----- print.c -----
 */
 void			ft_ls_print_err(t_ls *ls, t_list **lst);
 void			ft_ls_print_files_short(t_ls *ls, t_list *lst);
@@ -147,7 +150,7 @@ void			ft_ls_print_files(t_ls *ls, t_list **lst);
 void			ft_ls_print_dir(t_ls *ls, t_list **lst, int print_path);
 
 /*
-** ----- sort.c -----
+**				----- sort.c -----
 */
 int				ft_ls_sort_alpha(void *a, void *b);
 int				ft_ls_sort_mtime(void *a, void *b);
@@ -156,13 +159,13 @@ int				ft_ls_sort_size(void *a, void *b);
 void			ft_ls_get_sortfn(t_ls *ls, int (**out)(void*, void*));
 
 /*
-** ----- sort2.c -----
+**				----- sort2.c -----
 */
 int				ft_ls_sort_birth(void *a, void *b);
 void			ft_ls_sort_entries(t_ls *ls, t_ls_entries *entries);
 
 /*
-** ----- utils.c -----
+**				----- utils.c -----
 */
 void			ft_ls_clean(t_ls *ls);
 void			ft_ls_exit(t_ls *ls, const char *msg, int exit_code);

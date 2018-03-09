@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entry.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spopieul <spopieul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: orenkay <orenkay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 11:17:44 by orenkay           #+#    #+#             */
-/*   Updated: 2018/03/03 15:21:26 by spopieul         ###   ########.fr       */
+/*   Updated: 2018/03/08 19:49:28 by orenkay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,16 @@ void		ft_ls_set_flags(t_ls_ent *ent)
 	i += ft_sprintf(ent->flags + i, ft_ls_get_ent_letter(ent));
 	i += ft_sprintf(ent->flags + i, (FT_MASK_EQ(m, S_IRUSR) ? "r" : "-"));
 	i += ft_sprintf(ent->flags + i, (FT_MASK_EQ(m, S_IWUSR) ? "w" : "-"));
-	i += ft_sprintf(ent->flags + i, (FT_MASK_EQ(m, S_IXUSR) ? "x" : "-"));
+	if (FT_MASK_EQ(m, S_ISUID))
+		i += ft_sprintf(ent->flags + i, "s");
+	else
+		i += ft_sprintf(ent->flags + i, (FT_MASK_EQ(m, S_IXUSR) ? "x" : "-"));
 	i += ft_sprintf(ent->flags + i, (FT_MASK_EQ(m, S_IRGRP) ? "r" : "-"));
 	i += ft_sprintf(ent->flags + i, (FT_MASK_EQ(m, S_IWGRP) ? "w" : "-"));
-	i += ft_sprintf(ent->flags + i, (FT_MASK_EQ(m, S_IXGRP) ? "x" : "-"));
+	if (FT_MASK_EQ(m, S_ISGID))
+		i += ft_sprintf(ent->flags + i, "s");
+	else
+		i += ft_sprintf(ent->flags + i, (FT_MASK_EQ(m, S_IXGRP) ? "x" : "-"));
 	i += ft_sprintf(ent->flags + i, (FT_MASK_EQ(m, S_IROTH) ? "r" : "-"));
 	i += ft_sprintf(ent->flags + i, (FT_MASK_EQ(m, S_IWOTH) ? "w" : "-"));
 	if (FT_MASK_EQ(m, S_ISVTX))
